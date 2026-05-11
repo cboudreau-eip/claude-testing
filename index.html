@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedicareFAQ — Understanding Medicare Made Simple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:          #0B2545;
+      --navy-mid:      #1E3A5F;
+      --orange:        #E8600A;
+      --orange-hover:  #CF5109;
+      --teal:          #0D9B8A;
+      --white:         #FFFFFF;
+      --off-white:     #F7F8FA;
+      --border:        #E2E8F0;
+      --text-primary:  #0F1C2E;
+      --text-secondary:#4A5568;
+      --text-muted:    #718096;
+      --shadow-sm:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:     0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+      --shadow-lg:     0 8px 32px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.06);
+      --radius-sm:     6px;
+      --radius-md:     12px;
+      --radius-lg:     16px;
+      --font:          'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); color: var(--text-primary); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── TOP BAR ── */
+    .topbar { background: var(--navy); padding: 8px 0; font-size: 12.5px; color: rgba(255,255,255,.8); }
+    .topbar__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .topbar__badges { display: flex; align-items: center; gap: 20px; }
+    .topbar__badge { display: flex; align-items: center; gap: 6px; font-weight: 500; }
+    .topbar__right { display: flex; align-items: center; gap: 20px; }
+    .topbar__search { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); border-radius: 20px; padding: 5px 14px; color: rgba(255,255,255,.55); font-size: 12px; font-family: var(--font); cursor: pointer; transition: background .2s; }
+    .topbar__search:hover { background: rgba(255,255,255,.15); }
+    .topbar__links { display: flex; align-items: center; gap: 20px; }
+    .topbar__links a { color: rgba(255,255,255,.75); font-size: 12.5px; transition: color .2s; }
+    .topbar__links a:hover { color: var(--white); }
+    .topbar__phone { color: var(--white); font-weight: 600; font-size: 13px; }
+    .btn-topbar { background: var(--orange); color: var(--white); padding: 6px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 600; transition: background .2s, transform .1s; }
+    .btn-topbar:hover { background: var(--orange-hover); transform: translateY(-1px); }
+
+    /* ── NAV ── */
+    .nav { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm); }
+    .nav__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .nav__logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--navy); letter-spacing: -.5px; }
+    .nav__logo-icon { width: 36px; height: 36px; background: var(--navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .nav__links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav__links a { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: var(--text-secondary); transition: color .2s, background .2s; white-space: nowrap; }
+    .nav__links a:hover { color: var(--navy); background: var(--off-white); }
+    .btn-nav { background: var(--orange); color: var(--white); padding: 10px 22px; border-radius: 24px; font-size: 14px; font-weight: 600; margin-left: 8px; transition: background .2s, box-shadow .2s, transform .1s; box-shadow: 0 2px 8px rgba(232,96,10,.3); }
+    .btn-nav:hover { background: var(--orange-hover); box-shadow: 0 4px 16px rgba(232,96,10,.4); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero { background: var(--navy); position: relative; overflow: hidden; padding: 80px 0 0; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(13,155,138,.12) 0%, transparent 60%); pointer-events: none; }
+    .hero__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+    .hero__eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--teal); font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 20px; }
+    .hero__eyebrow-dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; }
+    .hero__title { font-size: clamp(32px,4vw,52px); font-weight: 800; color: var(--white); line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px; }
+    .hero__title span { color: var(--teal); }
+    .hero__subtitle { font-size: 17px; color: rgba(255,255,255,.7); line-height: 1.7; margin-bottom: 36px; max-width: 480px; }
+    .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn-hero { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 10px; font-size: 14.5px; font-weight: 600; transition: all .2s; cursor: pointer; border: none; font-family: var(--font); }
+    .btn-hero--primary { background: var(--teal); color: var(--white); box-shadow: 0 4px 16px rgba(13,155,138,.35); }
+    .btn-hero--primary:hover { background: #0b8a7b; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(13,155,138,.4); }
+    .btn-hero--secondary { background: rgba(255,255,255,.1); color: var(--white); border: 1px solid rgba(255,255,255,.2); }
+    .btn-hero--secondary:hover { background: rgba(255,255,255,.16); transform: translateY(-2px); }
+    .btn-hero__arrow { transition: transform .2s; }
+    .btn-hero:hover .btn-hero__arrow { transform: translateX(3px); }
+
+    .hero__stat-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-lg); padding: 32px; width: 100%; }
+    .hero__stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .hero__stat { text-align: center; padding: 20px 16px; background: rgba(255,255,255,.05); border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,.08); }
+    .hero__stat-number { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -.5px; }
+    .hero__stat-label { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 4px; }
+
+    .hero__trust-bar { background: rgba(255,255,255,.05); border-top: 1px solid rgba(255,255,255,.08); }
+    .hero__trust-inner { max-width: 1200px; margin: 0 auto; padding: 20px 24px; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .hero__trust-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.65); font-size: 13px; font-weight: 500; }
+    .hero__trust-item-icon { width: 32px; height: 32px; background: rgba(255,255,255,.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    /* ── SHARED SECTION ── */
+    .section { padding: 88px 0; }
+    .section--alt { background: var(--off-white); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section__eyebrow { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .section__eyebrow::before, .section__eyebrow::after { content: ''; width: 28px; height: 1px; background: var(--orange); opacity: .5; }
+    .section__title { text-align: center; font-size: clamp(26px,3.5vw,40px); font-weight: 800; color: var(--text-primary); letter-spacing: -.5px; margin-bottom: 12px; line-height: 1.2; }
+    .section__subtitle { text-align: center; font-size: 16px; color: var(--text-secondary); max-width: 580px; margin: 0 auto 52px; line-height: 1.7; }
+
+    /* ── JOURNEY ── */
+    .journey__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .journey-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); transition: transform .25s, box-shadow .25s; }
+    .journey-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .journey-card__image { height: 180px; position: relative; display: flex; align-items: flex-end; padding: 16px; }
+    .journey-card__image--new      { background: #0d2d52; }
+    .journey-card__image--working  { background: #1a3320; }
+    .journey-card__image--enrolled { background: #2d1a4a; }
+    .journey-card__badge { background: rgba(255,255,255,.15); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.2); color: var(--white); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .journey-card__body { padding: 24px; }
+    .journey-card__title { font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+    .journey-card__subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .journey-card__list { list-style: none; margin-bottom: 20px; display: flex; flex-direction: column; gap: 9px; }
+    .journey-card__list li { font-size: 13.5px; color: var(--text-secondary); display: flex; align-items: center; gap: 9px; }
+    .journey-card__list li::before { content: ''; width: 5px; height: 5px; background: var(--teal); border-radius: 50%; flex-shrink: 0; }
+    .journey-card__link { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--orange); transition: gap .2s; }
+    .journey-card__link:hover { gap: 10px; }
+
+    /* ── TOPICS ── */
+    .topics__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .topic-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; box-shadow: var(--shadow-sm); transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer; display: flex; align-items: flex-start; gap: 16px; }
+    .topic-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--teal); }
+    .topic-card__icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .topic-card__icon--blue   { background: #EFF6FF; }
+    .topic-card__icon--teal   { background: #F0FDF9; }
+    .topic-card__icon--purple { background: #F5F3FF; }
+    .topic-card__icon--orange { background: #FFF7ED; }
+    .topic-card__icon--rose   { background: #FFF1F2; }
+    .topic-card__icon--green  { background: #F0FDF4; }
+    .topic-card__title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .topic-card__desc  { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
+    .topic-card__count { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+    /* ── FIND PLANS ── */
+    .find-plans { background: var(--navy); position: relative; overflow: hidden; padding: 88px 0; }
+    .find-plans::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 50%, rgba(13,155,138,.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(232,96,10,.08) 0%, transparent 50%); pointer-events: none; }
+    .find-plans__inner { position: relative; z-index: 1; text-align: center; }
+    .find-plans .section__eyebrow { color: var(--teal); }
+    .find-plans .section__eyebrow::before, .find-plans .section__eyebrow::after { background: var(--teal); }
+    .find-plans .section__title { color: var(--white); }
+    .find-plans .section__subtitle { color: rgba(255,255,255,.65); }
+    .find-plans__form { display: flex; align-items: center; gap: 8px; max-width: 460px; margin: 0 auto 14px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 6px 6px 6px 20px; }
+    .find-plans__input { flex: 1; background: none; border: none; outline: none; color: var(--white); font-family: var(--font); font-size: 15px; }
+    .find-plans__input::placeholder { color: rgba(255,255,255,.4); }
+    .find-plans__submit { background: var(--orange); color: var(--white); border: none; border-radius: 8px; padding: 12px 22px; font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: background .2s, transform .1s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+    .find-plans__submit:hover { background: var(--orange-hover); transform: translateY(-1px); }
+    .find-plans__alt { font-size: 14px; color: rgba(255,255,255,.5); margin-bottom: 8px; }
+    .find-plans__alt a { color: rgba(255,255,255,.7); font-weight: 500; border-bottom: 1px solid rgba(255,255,255,.3); transition: color .2s; }
+    .find-plans__alt a:hover { color: var(--white); }
+    .find-plans__disclaimer { font-size: 12px; color: rgba(255,255,255,.3); }
+
+    /* ── RESOURCES ── */
+    .resources__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .resource-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
+    .resource-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .resource-card__top { padding: 24px 24px 20px; flex: 1; }
+    .resource-card__type { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 14px; }
+    .resource-card__type--guide { background: #EFF6FF; color: #1D4ED8; }
+    .resource-card__type--faq   { background: #FFF7ED; color: #C2410C; }
+    .resource-card__type--tool  { background: #F0FDF9; color: #065F46; }
+    .resource-card__title { font-size: 17px; font-weight: 700; color: var(--text-primary); line-height: 1.35; margin-bottom: 10px; }
+    .resource-card__excerpt { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+    .resource-card__footer { border-top: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .resource-card__meta { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+    .resource-card__read { font-size: 13px; font-weight: 600; color: var(--orange); display: flex; align-items: center; gap: 6px; transition: gap .2s; }
+    .resource-card__read:hover { gap: 10px; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .testimonial-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
+    .testimonial-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .testimonial-card__stars { display: flex; gap: 3px; margin-bottom: 14px; }
+    .star { width: 16px; height: 16px; }
+    .testimonial-card__quote { font-size: 14px; color: var(--text-secondary); line-height: 1.65; flex: 1; margin-bottom: 20px; }
+    .testimonial-card__footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .testimonial-card__author { font-weight: 600; font-size: 14px; color: var(--text-primary); }
+    .testimonial-card__source { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+    .testimonials__verified { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 8px; margin-bottom: 40px; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner { background: var(--navy); padding: 56px 0; }
+    .cta-banner__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .cta-banner__text h2 { font-size: 24px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .cta-banner__text p  { font-size: 15px; color: rgba(255,255,255,.6); }
+    .cta-banner__actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .btn-cta { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 8px; font-size: 14.5px; font-weight: 600; cursor: pointer; transition: all .2s; border: none; font-family: var(--font); }
+    .btn-cta--phone   { background: rgba(255,255,255,.1); color: var(--white); border: 1px solid rgba(255,255,255,.2); }
+    .btn-cta--phone:hover { background: rgba(255,255,255,.16); transform: translateY(-1px); }
+    .btn-cta--primary { background: var(--orange); color: var(--white); box-shadow: 0 2px 12px rgba(232,96,10,.35); }
+    .btn-cta--primary:hover { background: var(--orange-hover); box-shadow: 0 4px 20px rgba(232,96,10,.45); transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    .footer { background: #071422; color: rgba(255,255,255,.6); padding: 64px 0 0; }
+    .footer__grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 32px; margin-bottom: 48px; }
+    .footer__col-title { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.9); margin-bottom: 16px; }
+    .footer__links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer__links a { font-size: 13px; color: rgba(255,255,255,.5); transition: color .2s; }
+    .footer__links a:hover { color: var(--white); }
+    .footer__bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 28px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer__brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: var(--white); }
+    .footer__contact { display: flex; align-items: center; gap: 20px; font-size: 13px; }
+    .footer__contact a { color: rgba(255,255,255,.5); transition: color .2s; }
+    .footer__contact a:hover { color: var(--white); }
+    .footer__trust { display: flex; align-items: center; gap: 12px; }
+    .footer__trust-badge { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 8px; }
+    .footer__trust-badge-name { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.8); }
+    .footer__trust-badge-sub  { font-size: 11px; color: rgba(255,255,255,.4); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up   { animation: fadeInUp .55s ease both; }
+    .fade-up-2 { animation: fadeInUp .55s .1s ease both; }
+    .fade-up-3 { animation: fadeInUp .55s .2s ease both; }
+    .fade-up-4 { animation: fadeInUp .55s .3s ease both; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar__inner">
+    <div class="topbar__badges">
+      <span class="topbar__badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        BBB A+ Rated
+      </span>
+      <span class="topbar__badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        Licensed Agents
+      </span>
+    </div>
+    <div class="topbar__right">
+      <button class="topbar__search">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Search Medicare topics...
+      </button>
+      <nav class="topbar__links">
+        <a href="#">About Us</a>
+        <a href="#">Blog</a>
+        <a href="#">Coverage FAQs</a>
+        <a href="#">Contact</a>
+      </nav>
+      <a href="tel:8443993173" class="topbar__phone">(844) 399-3173</a>
+      <a href="#" class="btn-topbar">Get Started Free</a>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo">
+      <div class="nav__logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      MedicareFAQ
+    </a>
+    <ul class="nav__links">
+      <li><a href="#">New to Medicare</a></li>
+      <li><a href="#">Medicare Plans</a></li>
+      <li><a href="#">Enrollment</a></li>
+      <li><a href="#">Coverage</a></li>
+      <li><a href="#">Medicare Library</a></li>
+    </ul>
+    <a href="#" class="btn-nav">Get Started Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__inner">
+    <div>
+      <div class="hero__eyebrow fade-up">
+        <span class="hero__eyebrow-dot"></span>
+        Trusted by 2,000,000+ Americans nationwide
+      </div>
+      <h1 class="hero__title fade-up fade-up-2">
+        Understanding Medicare<br>Doesn't Have to be<br><span>Confusing.</span>
+      </h1>
+      <p class="hero__subtitle fade-up fade-up-3">Whether you're approaching 65, still working, or already enrolled, we'll help you understand your options with clear, unbiased guidance.</p>
+      <div class="hero__ctas fade-up fade-up-4">
+        <a href="#" class="btn-hero btn-hero--primary">I'm New to Medicare <span class="btn-hero__arrow">&#8594;</span></a>
+        <a href="#" class="btn-hero btn-hero--secondary">Working Past 65 <span class="btn-hero__arrow">&#8594;</span></a>
+        <a href="#" class="btn-hero btn-hero--secondary">Already Enrolled <span class="btn-hero__arrow">&#8594;</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="hero__stat-card">
+        <div class="hero__stat-grid">
+          <div class="hero__stat">
+            <div class="hero__stat-number">2M+</div>
+            <div class="hero__stat-label">Americans Helped</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-number">50</div>
+            <div class="hero__stat-label">States Licensed</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-number">A+</div>
+            <div class="hero__stat-label">BBB Rating</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-number">4.9</div>
+            <div class="hero__stat-label">Google Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero__trust-bar">
+    <div class="hero__trust-inner">
+      <div class="hero__trust-item">
+        <div class="hero__trust-item-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        BBB A+ Rated
+      </div>
+      <div class="hero__trust-item">
+        <div class="hero__trust-item-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        Licensed in All 50 States
+      </div>
+      <div class="hero__trust-item">
+        <div class="hero__trust-item-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        2,000,000+ Americans Helped
+      </div>
+      <div class="hero__trust-item">
+        <div class="hero__trust-item-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        Editorially Reviewed
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEDICARE JOURNEY -->
+<section class="section">
+  <div class="container">
+    <div class="section__eyebrow">Personalized Guidance</div>
+    <h2 class="section__title">Where Are You on Your Medicare Journey?</h2>
+    <p class="section__subtitle">Everyone's situation is different. Choose the path that matches yours and we'll guide you through exactly what you need to know.</p>
+    <div class="journey__grid">
+
+      <div class="journey-card">
+        <div class="journey-card__image journey-card__image--new">
+          <span class="journey-card__badge">Most Popular</span>
+        </div>
+        <div class="journey-card__body">
+          <div class="journey-card__title">New to Medicare</div>
+          <div class="journey-card__subtitle">Enrolling for the First Time</div>
+          <ul class="journey-card__list">
+            <li>Medicare 101 Guide</li>
+            <li>Am I Eligible?</li>
+            <li>Turning 65 Timeline</li>
+            <li>What Does it Cost?</li>
+            <li>Getting Started Checklist</li>
+          </ul>
+          <a href="#" class="journey-card__link">Explore This Path &#8594;</a>
+        </div>
+      </div>
+
+      <div class="journey-card">
+        <div class="journey-card__image journey-card__image--working"></div>
+        <div class="journey-card__body">
+          <div class="journey-card__title">Working Past 65</div>
+          <div class="journey-card__subtitle">Coordinating Medicare with Work Coverage</div>
+          <ul class="journey-card__list">
+            <li>Medicare &amp; Employer Coverage</li>
+            <li>When is it Best to Enroll</li>
+            <li>HSA &amp; Medicare Rules</li>
+            <li>COBRA vs. Medicare</li>
+            <li>Retirement Planning Guide</li>
+          </ul>
+          <a href="#" class="journey-card__link">Explore This Path &#8594;</a>
+        </div>
+      </div>
+
+      <div class="journey-card">
+        <div class="journey-card__image journey-card__image--enrolled"></div>
+        <div class="journey-card__body">
+          <div class="journey-card__title">Already Enrolled</div>
+          <div class="journey-card__subtitle">Reviewing or Changing Your Plan</div>
+          <ul class="journey-card__list">
+            <li>Compare Your Plan Options</li>
+            <li>Annual Enrollment Guide</li>
+            <li>Switch Plans: When &amp; How</li>
+            <li>Lower Your Costs</li>
+            <li>Coverage Gaps to Watch</li>
+          </ul>
+          <a href="#" class="journey-card__link">Compare Plans Now &#8594;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORE BY TOPIC -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__eyebrow">Comprehensive Guides</div>
+    <h2 class="section__title">Explore by Topic</h2>
+    <p class="section__subtitle">Six comprehensive guides covering everything you need to know about Medicare — each one a complete resource, not a sales pitch.</p>
+    <div class="topics__grid">
+
+      <div class="topic-card">
+        <div class="topic-card__icon topic-card__icon--blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <div>
+          <div class="topic-card__title">Medicare Plans Compared</div>
+          <div class="topic-card__desc">Original Medicare, Advantage, Supplement, and more — side by side comparisons.</div>
+          <div class="topic-card__count">12 articles</div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card__icon topic-card__icon--teal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+        </div>
+        <div>
+          <div class="topic-card__title">Coverage &amp; Benefits</div>
+          <div class="topic-card__desc">What Medicare covers, what it doesn't, and what fills the gaps.</div>
+          <div class="topic-card__count">18 articles</div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card__icon topic-card__icon--purple">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div>
+          <div class="topic-card__title">Enrollment &amp; Eligibility</div>
+          <div class="topic-card__desc">When to enroll, how to enroll, deadlines you must know.</div>
+          <div class="topic-card__count">15 articles</div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card__icon topic-card__icon--orange">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <div class="topic-card__title">Costs &amp; Savings</div>
+          <div class="topic-card__desc">Premiums, deductibles, out-of-pocket costs, and how to save.</div>
+          <div class="topic-card__count">14 articles</div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card__icon topic-card__icon--rose">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BE123C" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div>
+          <div class="topic-card__title">Medigap / Supplement</div>
+          <div class="topic-card__desc">If you're in need of reviewing, compare to switch and lower your costs.</div>
+          <div class="topic-card__count">11 articles</div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card__icon topic-card__icon--green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="topic-card__title">Medicare Advantage</div>
+          <div class="topic-card__desc">HMOs vs. PPOs, extra benefits, network rules, annual changes.</div>
+          <div class="topic-card__count">16 articles</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FIND PLANS -->
+<section class="find-plans">
+  <div class="container">
+    <div class="find-plans__inner">
+      <div class="section__eyebrow">Scan Plans</div>
+      <h2 class="section__title">Find Plans Available in Your Area</h2>
+      <p class="section__subtitle">Enter your ZIP code to see Medicare plans, costs, and coverage options specific to where you live.</p>
+      <div class="find-plans__form">
+        <input class="find-plans__input" type="text" placeholder="Enter ZIP code..." maxlength="5" />
+        <button class="find-plans__submit">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Find Plans in Your Area
+        </button>
+      </div>
+      <p class="find-plans__alt">Or call us at <a href="tel:8443993173">(844) 399-3173</a></p>
+      <p class="find-plans__disclaimer">No obligation. Request-based information for your area.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST RESOURCES -->
+<section class="section">
+  <div class="container">
+    <div class="section__eyebrow">Latest Updates</div>
+    <h2 class="section__title">Latest Resources</h2>
+    <p class="section__subtitle">Guides, answers, and tools — updated regularly by licensed Medicare professionals.</p>
+    <div class="resources__grid">
+
+      <div class="resource-card">
+        <div class="resource-card__top">
+          <span class="resource-card__type resource-card__type--guide">Guide</span>
+          <h3 class="resource-card__title">Medicare Supplement Plan G: The Complete 2026 Guide</h3>
+          <p class="resource-card__excerpt">Everything you need to know about Plan G — costs, coverage, who it's best for, and how it compares to other Medigap plans.</p>
+        </div>
+        <div class="resource-card__footer">
+          <span class="resource-card__meta">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Updated 2026
+          </span>
+          <a href="#" class="resource-card__read">Read &#8594;</a>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card__top">
+          <span class="resource-card__type resource-card__type--faq">FAQ</span>
+          <h3 class="resource-card__title">Does Medicare Cover Life Alert?</h3>
+          <p class="resource-card__excerpt">Original Medicare doesn't cover medical alert systems, but some Medicare Advantage plans may cover the cost.</p>
+        </div>
+        <div class="resource-card__footer">
+          <span class="resource-card__meta">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Updated 2026
+          </span>
+          <a href="#" class="resource-card__read">Read &#8594;</a>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card__top">
+          <span class="resource-card__type resource-card__type--tool">Tool</span>
+          <h3 class="resource-card__title">Medicare Enrollment Timeline Calculator</h3>
+          <p class="resource-card__excerpt">Enter your birthday and employment status to see exactly when you should enroll and what deadlines to watch.</p>
+        </div>
+        <div class="resource-card__footer">
+          <span class="resource-card__meta">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Updated 2026
+          </span>
+          <a href="#" class="resource-card__read">Read &#8594;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__eyebrow">Real Reviews</div>
+    <h2 class="section__title">What Our Clients Say</h2>
+    <div class="testimonials__verified">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+      Verified Google Reviews &nbsp;&middot;&nbsp; 100+ Insurance Partners
+    </div>
+    <div class="testimonials__grid">
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testimonial-card__quote">"Clean has been the BEST agent at that company. She has helped me so much to make a big decision and she has changed my mind she combined the same excellent service. She has amazing and called me to make sure everything..."</p>
+        <div class="testimonial-card__footer">
+          <span class="testimonial-card__author">Barbara</span>
+          <span class="testimonial-card__source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Google Review
+          </span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testimonial-card__quote">"Steven Williams is Awesome. Spoke to him in September about my husband's prescription plan and other questions. Called back spoke with him Friday to set up my own benefits. He was very friendly, professional. Knowledgeable..."</p>
+        <div class="testimonial-card__footer">
+          <span class="testimonial-card__author">Lisa Hancock</span>
+          <span class="testimonial-card__source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Google Review
+          </span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testimonial-card__quote">"I've been using Elite Insurance Partners for over 2 years and the service has been outstanding. They communicate frequently providing rate increases in my Medicare Supplement and when I call to compare they do that very thoroughly..."</p>
+        <div class="testimonial-card__footer">
+          <span class="testimonial-card__author">Donna Zusc</span>
+          <span class="testimonial-card__source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Google Review
+          </span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testimonial-card__quote">"Elite Insurance Partners representatives are very knowledgeable and helpful, answering all our questions, having excellent recommendations and efficiently processing our paperwork."</p>
+        <div class="testimonial-card__footer">
+          <span class="testimonial-card__author">Bill Parrish</span>
+          <span class="testimonial-card__source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Google Review
+          </span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testimonial-card__quote">"Spoke with Elit Cancer yesterday — what a genuine, friendly, and (thankfully) a great sense of humor. Would recommend Elite to anyone calling to research Medicare plans. Thanks Elit!"</p>
+        <div class="testimonial-card__footer">
+          <span class="testimonial-card__author">Catherine</span>
+          <span class="testimonial-card__source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Google Review
+          </span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testimonial-card__quote">"Nicholas was very nice, answered all my questions. Found me a good Plan G policy. A pleasure to talk to and good to attend your office. Thanks again!"</p>
+        <div class="testimonial-card__footer">
+          <span class="testimonial-card__author">Cole Fenton</span>
+          <span class="testimonial-card__source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Google Review
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="cta-banner__inner">
+    <div class="cta-banner__text">
+      <h2>Need help choosing the right plan?</h2>
+      <p>Our licensed agents are available to answer your questions — no obligation, no pressure.</p>
+    </div>
+    <div class="cta-banner__actions">
+      <a href="tel:8443993173" class="btn-cta btn-cta--phone">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call Us Now
+      </a>
+      <a href="#" class="btn-cta btn-cta--primary">
+        Get Started Online
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__col-title">How to Guide</div>
+        <ul class="footer__links">
+          <li><a href="#">Am I Eligible?</a></li>
+          <li><a href="#">Original Medicare</a></li>
+          <li><a href="#">Turning 65 Timeline</a></li>
+          <li><a href="#">What Does it Cost?</a></li>
+          <li><a href="#">Getting Started Checklist</a></li>
+          <li><a href="#">Compare My Plans</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Medicare Plans</div>
+        <ul class="footer__links">
+          <li><a href="#">Compare Medicare Plans</a></li>
+          <li><a href="#">Medicare Supplement</a></li>
+          <li><a href="#">Part D / Drug Plans</a></li>
+          <li><a href="#">Medicare Costs</a></li>
+          <li><a href="#">Supplement Plans 2026</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Enrollment</div>
+        <ul class="footer__links">
+          <li><a href="#">Turning 65 Enrollment</a></li>
+          <li><a href="#">Medicaring at 65</a></li>
+          <li><a href="#">Annual Changes</a></li>
+          <li><a href="#">Late Penalties</a></li>
+          <li><a href="#">How to Enroll</a></li>
+          <li><a href="#">Enrollment Overview</a></li>
+          <li><a href="#">Enrollment Timeline</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Coverage</div>
+        <ul class="footer__links">
+          <li><a href="#">Does Medicare Cover D-S?</a></li>
+          <li><a href="#">Surgery, Vision &amp; Hearing</a></li>
+          <li><a href="#">Urgent/Acute Care</a></li>
+          <li><a href="#">Prescription Drugs</a></li>
+          <li><a href="#">Search All Coverage</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Resources</div>
+        <ul class="footer__links">
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Videos</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Calculators</a></li>
+          <li><a href="#">Senior's Guide to Medicare</a></li>
+          <li><a href="#">Testimonials</a></li>
+          <li><a href="#">Partners</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__brand">
+        <div class="nav__logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        MedicareFAQ
+      </div>
+      <div class="footer__contact">
+        <a href="tel:8443993173">(844) 399-3173</a>
+        <a href="mailto:info@medicarefaq.com">info@medicarefaq.com</a>
+      </div>
+      <div class="footer__trust">
+        <div class="footer__trust-badge">
+          <div class="footer__trust-badge-name">Forbes</div>
+        </div>
+        <div class="footer__trust-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <div>
+            <div class="footer__trust-badge-name">4.9</div>
+            <div class="footer__trust-badge-sub">Google Reviews</div>
+          </div>
+        </div>
+        <div class="footer__trust-badge">
+          <div class="footer__trust-badge-name">Accredited Business</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
